@@ -1,5 +1,16 @@
 Notes for P4A: Scalable Web Server
 
+Your server program must be invoked exactly as follows:
+ + prompt> server [portnum] [file-system-image]
+    - portnum: the port number that the file server should listen on.
+    - file-system-image: a file that contains the file system image.
+        a. If file system image DNE, should create it and properly initialize it to include an empty root directory.
+        
+Client Library:
+ + deals with the case where the server does not reply in a timely fashion
+ +  should implement the interface as specified by mfs.h
+ 
+
 Currently is a stand-alone UDP-based server.
  + Waits for message, then processes message as need be.
  + replies to client
@@ -49,6 +60,18 @@ Server should:
  + If it DNE, file server should create it, initialize if properly, and force it to disk.
     - Initialization includes creating the CR, initial inode map, and a single root dir with proper . and .. entries. Root inode num should be 0
  + If it exists, server should read in the CR region, and keep an in-mem version of it, as well as the entire inode map in memory as well.
+
+
+*****Idempotency:
+ + on any change to the file system state (such as a MFS_Write, MFS_Creat, or MFS_Unlink), all the dirtied buffers in the server are committed to the disk. 
+ + The server can achieve this by calling fsync() on the file system image
+ + before returning a success code, the file system should always fsync() the image
+ + Why? if server crashes, client can timeout and retry the operation.
+ + *****how to implement a timeout? 
+    - with the select() interface.
+    - select() calls allow us to wait for a reply on a certain socket descriptor (or more than one, though that is not needed here)
+    - can even specify a timeout so client does not block forever waiting for data to be returned from the server. 
+    - can wait for a reply for a certain amount of time, and if nothing is returned, try the operation again until it is successful
  
  
  

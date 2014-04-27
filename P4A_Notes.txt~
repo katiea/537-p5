@@ -42,13 +42,20 @@ File system Image:
     - Name should be a fixed-length size of 60 bytes
     - iNode number is just an int (4 bytes)
  + When created, a dir contains two entries: the name: "." --> refers to this new dir's inode number, and ".." --> refers to parent dir's inode number.
- *****+ Dir entries not in use in an *allocated* 4 kb dir block, the inode number should == -1 
+ *****+ Dir entries not in use in an *allocated* 4 kb dir block, the inode number should == -1
+ 
+Client Should:
+ + be build as a client library to access the file server
+ + Library should be called libmfs.so
+ + Interface for library defined in mfs.h and should be called libmfs.so
+ 
  
 Server should:
  + When server is started, it is passed the name of the file system image file.
  + If it DNE, file server should create it, initialize if properly, and force it to disk.
     - Initialization includes creating the CR, initial inode map, and a single root dir with proper . and .. entries. Root inode num should be 0
  + If it exists, server should read in the CR region, and keep an in-mem version of it, as well as the entire inode map in memory as well.
+ 
  
  
  
