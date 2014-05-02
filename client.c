@@ -27,6 +27,17 @@ main(int argc, char *argv[])
     
     p->function = 1;
     
+    char buffer[4096];
+    char *text;
+    
+    if (fgets(buffer, sizeof(buffer), stdin) != NULL ) {
+      char *newline = strchr(buffer, '\n'); /* search for newline character */
+      if ( newline != NULL )
+      {
+         *newline = '\0'; /* overwrite trailing newline */
+      }
+      text = buffer;
+   }
     
     rc = UDP_Write(sd, &saddr, p, sizeof(struct __MFS_package_t));
     printf("CLIENT:: sent message (%d)\n", rc);

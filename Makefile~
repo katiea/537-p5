@@ -2,7 +2,6 @@ CC   = gcc
 OPTS = -Wall
 
 all: server client
-#TODO: build shared lib
 
 # this generates the target executables
 server: server.o udp.o
