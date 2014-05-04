@@ -19,5 +19,4 @@ library:client_library.c mfs.h
 
 clean:
 	rm -f server.o udp.o client.o server client
-	rm -rf client_library.o libmfs.so	
-
+	rm -rf client_library.o libmfs.so
