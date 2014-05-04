@@ -25,6 +25,7 @@ main(int argc, char *argv[])
 	        //printf("                                SERVER:: read %d bytes (message: '%s')\n", rc, package);
 	        
 	        printf("current package num: %d\n", package->function);
+	        package->function = 2;
 	        
 	        //char reply[BUFFER_SIZE];
 	        //sprintf(reply, "reply");

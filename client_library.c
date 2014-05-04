@@ -1,19 +1,25 @@
-#include "mfs.h"
+git pull#include "mfs.h"
 #include <stdio.h>
 #include <string.h>
 
-
-
+ struct sockadder_in saddr;
+ int sd;
+ int rc;   
+   
 MFS_package_t *p;
 //TODO: In client p = malloc(sizeof(struct __MFS_package_t));
 
 /*MFS_Init() takes a host name and port number and uses those to find the server exporting the file system.*/
 int MFS_Init(char *hostname, int port){
 
+
+    sd = UDP_Open(0);
+    assert(sd > -1);
+    sockaddr_in saddr;
+    rc = UDP_FillSockAddr(&saddr, hostname, port);
+    assert(rc == 0);
+    
 //1. set variables
-p->function = 1;
-p->name_buffer = hostname;
-p->success = 0;
 //2. write to server (including struct)
 //3. wait for response (wait for struc).
 //4. check if successful (check p->success == 1)
@@ -25,10 +31,12 @@ return 0;
 /*MFS_Lookup() takes the parent inode number (which should be the inode number of a directory) and looks up the entry name in it. The inode number of name is returned. Success: return inode number of name; failure: return -1. Failure modes: invalid pinum, name does not exist in pinum.*/
 int MFS_Lookup(int pinum, char *name){
 
-p->function = 2;
-p->name_buffer = name;
-p->int_arg1 = pinum;
-p->success = 0;
+    if (sizeof(name) > 60) return -1;
+
+    p->function = 2;
+    p->name_buffer = name;
+    p->int_arg1 = pinum;
+    p->success = 0;
 
 return 0;
 }
@@ -71,11 +79,14 @@ return 0;
 /*MFS_Creat() makes a file ( type == MFS_REGULAR_FILE) or directory ( type == MFS_DIRECTORY) in the parent directory specified by pinum of name name . Returns 0 on success, -1 on failure. Failure modes: pinum does not exist, or name is too long. If name already exists, return success (think about why).*/
 int MFS_Creat(int pinum, int type, char *name){
 
-p->function = 6;
-p->name_buffer = name;
-p->int_arg1 = pinum;
-p->int_arg2 = type;
-p->success = 0;
+
+    if (sizeof(name) > 60) return -1;
+    
+    p->function = 6;
+    p->name_buffer = name;
+    p->int_arg1 = pinum;
+    p->int_arg2 = type;
+    p->success = 0;
 
 return 0;
 }
@@ -83,10 +94,12 @@ return 0;
 /*MFS_Unlink() removes the file or directory name from the directory specified by pinum . 0 on success, -1 on failure. Failure modes: pinum does not exist, directory is NOT empty. Note that the name not existing is NOT a failure by our definition (think about why this might be).*/
 int MFS_Unlink(int pinum, char *name){
 
-p->function = 7;
-p->name_buffer = name;
-p->int_arg1 = pinum;
-p->success = 0;
+    if (sizeof(name) > 60) return -1;
+    
+    p->function = 7;
+    p->name_buffer = name;
+    p->int_arg1 = pinum;
+    p->success = 0;
 
 return 0;
 }
