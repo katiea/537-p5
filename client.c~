@@ -31,7 +31,7 @@ main(int argc, char *argv[])
     char *text;
     
     if (fgets(buffer, sizeof(buffer), stdin) != NULL ) {
-      char *newline = strchr(text, '\n'); /* search for newline character */
+      char *newline = strchr(buffer, '\n'); /* search for newline character */
       if ( newline != NULL )
       {
          *newline = '\0'; /* overwrite trailing newline */

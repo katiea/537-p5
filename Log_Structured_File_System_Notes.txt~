@@ -23,24 +23,4 @@ Writing sequentially and EFFECTIVELY:
                 Write the Following: D0 D1 D2 D3 Inode(w/ ptrs to all "J" D), D0 Inode (w/PTRS to all "k")
 
 How much do we buffer?
-    When we call MFS_write, MFS_creat, MFS_unlink
-    
- Finding iNodes?
-    Easy! iNode map is organized in an array - indexed by inode num.
-        each entry is a 4 byte int = disk address of the location of the inode in question.
-    Maximum of 4096 inodes
-    256 pieces of inode map.
-    each piece of inode map holds 16 inode entries
-    
-    
-    iNodes: 
-        int size // num of the last byte in the file
-        int type // reg or dir
-        14 * Data_type *data_ptr //piec es of file's data
-        //MAX SIZE of a file is 14 * 4kb == 56 KB
-    Dirs: 64 bytes
-        //each dir has an inode with it.
-        char *name //fixed length field of 60 bytes
-        int inode_num //4 bytes
-        
-        
+            

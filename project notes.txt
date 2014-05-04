@@ -1,0 +1,31 @@
+LFS
+
+store locally the img
+via UDP 
+
+Implement the server which manages disc img, and responds to requests
+  operations idempotent
+
+client: library that any application that wants to link can do so...
+  no open
+  start at root and name of file..
+  uses lookup until finds a file and then can read/write to it.
+  wait for a while, then try again
+
+Modeled on NFS protocol
+
+How to deal with lost messages or server is down?
+
+
+UDP:
+  when want to talk, you have to bind to a certain port num
+  
+  
+Build a structure of some kind. Fill in that structure, then send size of struct
+
+struct msg_t m;
+rc = UDP_Write(sd, &saddr, &m, sizeof(m));
+
+re-use socket
+
+1000 lines of code
