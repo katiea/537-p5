@@ -36,6 +36,7 @@ char* name_buffer;
 int int_arg1;
 int int_arg2;
 MFS_Stat_t *m;
+MFS_DirEnt_t *d;
 int success;
 
 } MFS_package_t;
